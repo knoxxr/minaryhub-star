@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
   const app = oneLine(b.app || '').slice(0, MAX.app);
   const message = String(b.message || '').trim().slice(0, MAX.message);
   const page = /^https?:\/\//.test(b.page || '') ? String(b.page).slice(0, 300) : '';
-  if (!EMAIL.test(email) || message.length < 5) return res.status(400).json({ error: 'invalid' });
+  if (!EMAIL.test(email) || !message) return res.status(400).json({ error: 'invalid' });
 
   const ip = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
   if (limited(ip)) return res.status(429).json({ error: 'rate' });
